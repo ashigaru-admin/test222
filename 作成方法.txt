@@ -1,0 +1,55 @@
+■SSHログイン
+ssh ucai@ssh180.heteml.jp -p 2222
+password： r119yagi
+
+-------
+
+■git作成場所
+/home/sites/heteml/users/u/c/a/ucai/web/ashigaru.co.jp/git
+現状テストように「testrepos.git」を作成済み
+
+cd /home/sites/heteml/users/u/c/a/ucai/web/ashigaru.co.jp/git
+mkdir 「作成する案件名」.git
+cd 「作成する案件名」.git
+git init --bare --shared
+
+-------
+
+■デプロイ先にリポジトリ（クローン）を作成
+cd /home/sites/heteml/users/u/c/a/ucai/web/ashigaru.co.jp/
+git clone /home/sites/heteml/users/u/c/a/ucai/web/ashigaru.co.jp/git/「作成する案件名」.git/
+
+/home/sites/heteml/users/u/c/a/ucai/web/ashigaru.co.jp/内に「作成する案件名」のディレクトリが作成されます。
+
+-------
+
+■自動デプロイの設定
+
+post-receiveを作成、以下内容
+** post-receive **
+#!/bin/sh
+cd /home/sites/heteml/users/u/c/a/ucai/web/ashigaru.co.jp/repotest/testrepos;
+git --git-dir=.git pull
+****
+
+上記をデプロイ先の.gitフォルダ内hooksディレクトリにアップロードする。
+
+パーミッションを705に変更
+cd /home/sites/heteml/users/u/c/a/ucai/web/ashigaru.co.jp/git/「作成する案件名」.git/hooks/
+chmod +x post-receive
+
+http://www.ashigaru.co.jp/
+
+-------
+
+
+■SourceTree
+
+URLからクローン
+ソースURL： ssh://ucai@ssh180.heteml.jp:2222/home/sites/heteml/users/u/c/a/ucai/web/ashigaru.co.jp/git/「作成する案件名」.git/
+保存先のパス： 自分の使いやすい場所
+名前： わかりやすい名前をつける
+
+該当のフォルダーを開き、初期ファイルなどをコミット/プッシュ
+
+
